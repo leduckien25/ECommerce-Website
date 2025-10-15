@@ -1,0 +1,27 @@
+﻿@model UserViewModel
+
+<div class="row mt-5">
+    <div class="col-lg-2">
+        <partial name="partials/_AccountSidebar" />
+    </div>
+
+    <div class="col-lg-10">
+        <h4 class="mb-3">Edit Profile</h4>
+
+        <div asp-validation-summary="All" class="@(ViewData.ModelState.ErrorCount > 0 ? "alert alert-danger" : "") col-md-6"></div>
+        <form asp-action="EditProfile" method="post" class="w-50">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" type="email" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Optional" />
+            </div>
+
+            <button type="submit" class="btn btn-primary mx-1">Save</button>
+            <a asp-action="Manage" class="btn btn-outline-secondary mx-1">Cancel</a>
+        </form>
+    </div>
+</div>

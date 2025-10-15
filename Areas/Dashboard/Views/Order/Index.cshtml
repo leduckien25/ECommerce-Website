@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Order>
+<div class="container my-3">
+    <div class="card border-0 shadow">
+        <div class="card-header">
+            Orders
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ord in Model)
+                    {
+                        <tr class="order-row" data-id="@ord.OrderId">
+                            <td>@ord.OrderId</td>
+                            <td>@ord.FullName</td>
+                            @if (ord.Status == "Pending")
+                            {
+                                <td><span class="badge bg-warning text-dark">@ord.Status</span></td>
+                            }
+                            else if (ord.Status == "Paid")
+                            {
+                                <td><span class="badge bg-success">@ord.Status</span></td>
+                            }
+                            else if (ord.Status == "Cancelled")
+                            {
+                                <td><span class="badge bg-danger">@ord.Status</span></td>
+                            }
+
+                            <td>$@ord.TotalAmount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item" id="li-@i">
+                        <a class="page-link" href="/dashboard/order/index/@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#li-@ViewBag.CurrentPage').addClass('active');
+
+        $('.order-row').hover(function(){
+            $(this).css('background-color','#f8f9fa')
+        },function(){
+            $(this).css('background-color','')
+        });
+
+        $('.order-row').on('click', function(){
+            var orderId = $(this).data('id');
+            window.location.href = '/dashboard/order/details/' + orderId;
+        });
+
+    </script>
+}

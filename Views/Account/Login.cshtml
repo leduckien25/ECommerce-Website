@@ -1,0 +1,53 @@
+﻿@model LoginViewModel
+<div class="row justify-content-sm-center h-100">
+    <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+        <div class="card border-0 rounded-3">
+            <div class="card-header bg-white border-0 text-center pt-4">
+                <h1 class="fs-4 card-title fw-bold mb-0">Login</h1>
+            </div>
+
+            
+            <div class="card-body p-5">
+                <div asp-validation-summary="All" class="@(ViewData.ModelState.ErrorCount > 0 ? "alert alert-danger":"")"></div>
+
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    <div class="mb-3">
+                        <label class="mb-2 text-muted" asp-for="Username">Username</label>
+                        <input class="form-control" asp-for="Username" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <label class="text-muted" asp-for="Password">Password</label>
+                            <a asp-controller="Account" asp-action="ForgotPassword" class="small">
+                                Forgot Password?
+                            </a>
+                        </div>
+                        <input class="form-control" asp-for="Password" type="password" required />
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="RememberMe"/>
+                            <label class="form-check-label" asp-for="RememberMe">Remember Me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary ms-auto">
+                            Login
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mb-3">
+                    <span class="text-muted">Don't have an account?</span>
+                    <a asp-controller="Account" asp-action="Register" class="fw-bold text-primary">Create One</a>
+
+                </div>
+                <div class="mb-3">
+                    <a asp-controller="Account" asp-action="LoginGoogle" class="btn btn-outline-danger w-100">
+                        <i class="fab fa-google me-2"></i> Login with Google
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

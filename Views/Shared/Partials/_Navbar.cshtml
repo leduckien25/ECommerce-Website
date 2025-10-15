@@ -1,0 +1,45 @@
+﻿@{
+    var cartCount = Context.Session.GetInt32("CartCount") ?? 0;
+}
+
+
+<!-- Navbar start -->
+<div class="container-fluid sticky-top bg-white">
+    <div class="container px-0">
+        <nav class="navbar navbar-light navbar-expand-xl">
+            <a asp-controller="Home" asp-action="Index" class="navbar-brand">
+                <h1 class="text-primary display-6">E-Commerce</h1>
+            </a>
+            <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                <div class="navbar-nav mx-auto">
+                    <a href="/"
+                       class="nav-item nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                        Home
+                    </a>
+                    <a href="/product/index"
+                       class="nav-item nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" ? "active" : "")">
+                        Product
+                    </a>
+                    <a href="/contact"
+                       class="nav-item nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ? "active" : "")">
+                        Contact
+                    </a>
+                </div>
+                <div class="d-flex m-3 me-0">
+                    <a href="/cart" class="position-relative me-4 my-auto">
+                        <i class="fa fa-shopping-bag fa-2x"></i>
+                        @if (cartCount > 0)
+                        {
+                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1 cartItemCount"
+                                  style="top: -5px; left: 15px; height: 20px; min-width: 20px;">@cartCount</span>
+                        }
+                    </a>
+                    <a href="/account/manage" class="my-auto">
+                        <i class="fas fa-user fa-2x"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Navbar End --> 

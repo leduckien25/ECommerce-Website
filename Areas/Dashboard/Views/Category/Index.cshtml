@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Category";
+}
+
+<div class="container">
+    <div class="text-end m-3">
+        <a href="/dashboard/category/add" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Add New Category
+        </a>
+    </div>
+
+    <div class="card border-0 shadow">
+        <div class="card-header">
+            Categories
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th>Category ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model)
+                    {
+                        <tr class="category-row" data-id="@category.CategoryId">
+                            <td>@category.CategoryId</td>
+                            <td>@category.CategoryName</td>
+                            <td>@category.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item" id="li-@i">
+                        <a class="page-link" href="/dashboard/category/index/@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#li-@ViewBag.CurrentPage').addClass('active');
+
+        $('.category-row').hover(function(){
+              $(this).css('background-color','#f8f9fa')
+         }, function(){
+              $(this).css('background-color','')
+         });
+
+         $('.category-row').on('click', function(){
+             var productId = $(this).data('id');
+
+              window.location.href = '/dashboard/category/details/' + productId;
+         });
+
+          @if (TempData["message"] != null)
+          {
+                 <text>
+                 alert('@TempData["message"]');
+                 </text>
+          }
+    </script>
+}

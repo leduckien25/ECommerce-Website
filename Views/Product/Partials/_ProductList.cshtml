@@ -1,0 +1,7 @@
+﻿@model IEnumerable<ProductViewModel>
+<div class="row g-4 justify-content-center">
+    @foreach (ProductViewModel viewModel in Model)
+    {
+        @Html.Partial("~/Views/Product/Partials/_ProductItem.cshtml", viewModel)
+    }
+</div>

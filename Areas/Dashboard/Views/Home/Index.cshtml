@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Order>
+<div class="container my-3">
+    <div class="row text-center mb-5">
+        <div class="col-md-3 mb-4">
+            <div class="card bg-primary text-white shadow-sm border-0">
+                <a href="/dashboard/order" class="stretched-link text-decoration-none text-white">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <i class="fa-solid fa-cart-shopping me-2"></i>Orders
+                        </h5>
+                        <p class="display-6 fw-bold mb-0">@ViewBag.TotalOrders</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="col-md-3 mb-4">
+            <div class="card bg-success text-white shadow-sm border-0">
+                <a href="/dashboard/product" class="stretched-link text-decoration-none text-white">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <i class="fa-solid fa-box-open me-2"></i>Products
+                        </h5>
+                        <p class="display-6 fw-bold mb-0">@ViewBag.TotalProducts</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="col-md-3 mb-4">
+            <div class="card bg-warning text-dark shadow-sm border-0">
+                <a href="/dashboard/category" class="stretched-link text-decoration-none text-dark">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <i class="fa-solid fa-layer-group me-2"></i>Categories
+                        </h5>
+                        <p class="display-6 fw-bold mb-0">@ViewBag.TotalCategories</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Suppliers -->
+        <div class="col-md-3 mb-4">
+            <div class="card bg-info text-white shadow-sm border-0">
+                <a href="/dashboard/supplier" class="stretched-link text-decoration-none text-white">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <i class="fa-solid fa-industry me-2"></i>Suppliers
+                        </h5>
+                        <p class="display-6 fw-bold mb-0">@ViewBag.TotalSuppliers</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow">
+        <div class="card-header">
+            Recent Orders
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ord in Model)
+                    {
+                        <tr class="order-row" data-id="@ord.OrderId">
+                            <td>@ord.OrderId</td>
+                            <td>@ord.FullName</td>
+                            @if (ord.Status == "Pending")
+                            {
+                                <td><span class="badge bg-warning text-dark">@ord.Status</span></td>
+                            }
+                            else if (ord.Status == "Paid")
+                            {
+                                <td><span class="badge bg-success">@ord.Status</span></td>
+                            }
+                            else if (ord.Status == "Cancelled")
+                            {
+                                <td><span class="badge bg-danger">@ord.Status</span></td>
+                            }
+
+                            <td>$@ord.TotalAmount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('.order-row').on('click', function(){
+            var orderId = $(this).data('id');
+
+            window.location.href= '/Dashboard/Order/Details/' + orderId;
+        });
+
+        $('.order-row').hover(function(){
+            $(this).css('background-color','#f8f9fa')
+            },
+            function() {
+                $(this).css('background-color','')
+            });
+
+    </script>
+}

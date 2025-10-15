@@ -1,0 +1,53 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Add Category";
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-semibold mb-0">
+            <i class="bi bi-box-seam me-2 text-primary"></i>Add Category
+        </h3>
+    </div>
+    <form enctype="multipart/form-data" method="post" action="/dashboard/category/add">
+        <div class="row g-4 shadow-sm bg-white rounded-3 p-4 mb-3">
+            <div class="col-md-7">
+                <dl class="row mb-0">
+                    <dt class="col-md-4 col-sm-5 text-muted fw-semibold">Name</dt>
+                    <dd class="col-md-8 col-sm-7"><input asp-for="CategoryName" class="border-0 rounded-2 shadow-sm" required /></dd>
+
+                    <dt class="col-md-4 col-sm-5 text-muted fw-semibold">Description</dt>
+                    <dd class="col-md-8 col-sm-7">
+                        <textarea asp-for="Description" rows="5" class="border-0 rounded-2 shadow-sm w-100"></textarea>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="text-start">
+            <a class="btn btn-secondary" href="/dashboard/category">Cancel</a>
+            <button class="btn btn-primary" id="btn-save">Save</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        @if (TempData["message"] != null)
+        {
+                    <text>
+                    alert('@TempData["message"]');
+                    </text>
+        }
+
+        $('.product-row').click(function(){
+            var id = $(this).data('id')
+            window.location.href='/dashboard/product/details/'+ id
+        })
+
+        $('.product-row').hover(function(){
+            $(this).css('background-color', '#f8f9fa')
+        },function(){
+            $(this).css('background-color','')
+        })
+    </script>
+}

@@ -1,0 +1,17 @@
+﻿<div class="row mt-5">
+    <div class="col-lg-2">
+        <partial name="partials/_AccountSidebar">
+    </div>
+
+    <!-- Main content column -->
+    <div class="col-lg-10">
+        <h3 class="mb-4">Account Information</h3>
+        <div class="card">
+            <div class="card-body">
+                <p><strong>Username:</strong> @(Model.Username != null ? Model.Username : "Not Provided")</p>
+                <p><strong>Email:</strong> @(Model.Email != null ? Model.Email : "Not Provided")</p>
+                <p><strong>Phone Number:</strong> @(Model.PhoneNumber != null ? Model.PhoneNumber : "Not Provided")</p>
+            </div>
+        </div>
+    </div>
+</div>

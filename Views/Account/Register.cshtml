@@ -1,0 +1,39 @@
+﻿@model RegisterViewModel
+<div class="row justify-content-sm-center h-100">
+    <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+        <div class="card border-0 rounded-3">
+            <div class="card-header bg-white border-0 text-center pt-4">
+                <h1 class="fs-4 card-title fw-bold mb-0">Register</h1>
+            </div>
+
+            <div class="card-body p-5">
+                @if (ViewData.ModelState.ErrorCount > 0)
+                {
+                    <div asp-validation-summary="All" class="alert alert alert-danger"></div>
+                }
+                <form asp-controller="Account" asp-action="Register" method="post" class="needs-validation">
+                    <div class="mb-3">
+                        <label class="mb-2 text-muted" asp-for="Username">Username</label>
+                        <input class="form-control" asp-for="Username" type="text" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="mb-2 text-muted" asp-for="Email">E-Mail Address</label>
+                        <input class="form-control" asp-for="Email" type="email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="mb-2 text-muted" asp-for="Password">Password</label>
+                        <input class="form-control" asp-for="Password" type="password" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="mb-2 text-muted" asp-for="ConfirmPassword">Confirm Password</label>
+                        <input class="form-control" asp-for="ConfirmPassword" type="password" required />
+                    </div>
+
+                    <div class="mb-3 text-center">
+                        <button class="btn btn-outline-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
