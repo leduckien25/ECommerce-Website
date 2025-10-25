@@ -1,6 +1,4 @@
-﻿
-
-<div class="container mb-5">
+﻿<div class="container mb-5">
     <div class="row g-4 mb-5">
         <div class="col-lg-9">
             <div class="row g-4">
@@ -16,10 +14,11 @@
                     <form action="/cart/addtocart">
                         <div class="input-group quantity mb-5" style="width: 100px;">
                             <input type="hidden" name="ProductId" value="@ViewBag.Product.ProductId" />
-                            <input type="number" class="form-control form-control-sm text-center border-0"
-                                   name="Quantity" value="1" min="1" />
+                            <input type="number" class="form-control form-control-sm text-center border-0 shadow-sm"
+                                name="Quantity" value="1" min="1" />
                         </div>
-                        <button type="submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                        <button type="submit"
+                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary shadow-sm">
                             <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                         </button>
                     </form>
@@ -37,11 +36,14 @@
             <h1 class="fw-bold mb-4 mt-5">Related products</h1>
         </div>
         <div class="col-lg-3">
-            @Html.Partial("~/Views/Shared/Partials/_CategoryList.cshtml", (IEnumerable<CategoryViewModel>)ViewBag.Categories)
-            @Html.Partial("~/Views/Shared/Partials/_SupplierList.cshtml", (IEnumerable<SupplierViewModel>)ViewBag.Suppliers)
+            @Html.Partial("~/Views/Shared/Partials/_CategoryList.cshtml",
+            (IEnumerable<CategoryViewModel>)ViewBag.Categories)
+            @Html.Partial("~/Views/Shared/Partials/_SupplierList.cshtml",
+                        (IEnumerable<SupplierViewModel>)ViewBag.Suppliers)
         </div>
     </div>
     <div class="row m-5">
-        @Html.Partial("~/Views/Product/Partials/_ProductList.cshtml", (IEnumerable<ProductViewModel>)ViewBag.ProductsRelation)
+        @Html.Partial("~/Views/Product/Partials/_ProductList.cshtml",
+                (IEnumerable<ProductViewModel>)ViewBag.ProductsRelation)
     </div>
 </div>

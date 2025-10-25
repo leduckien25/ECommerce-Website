@@ -35,23 +35,28 @@
                             <tr>
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
-                                        <img src="/images/products/@item.Product.ImageUrl" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                        <img src="/images/products/@item.Product.ImageUrl" class="img-fluid me-5 rounded-circle"
+                                            style="width: 80px; height: 80px;" alt="">
                                     </div>
                                 </th>
                                 <td>
-                                    <a href="/product/details/@item.ProductId"><p class="mb-0 mt-4">@item.Product.ProductName</p></a>
+                                    <a href="/product/details/@item.ProductId">
+                                        <p class="mb-0 mt-4">@item.Product.ProductName</p>
+                                    </a>
                                 </td>
                                 <td>
                                     <p class="mb-0 mt-4">@item.Product.Price $</p>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control text-center w-25 mt-4" value="@item.Quantity" min="1">
+                                    <input type="number" class="text-center w-25 mt-4 border-0 shadow-sm bg-white"
+                                        value="@item.Quantity" readonly>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">@(item.Product.Price * item.Quantity) $</p>
+                                    <p class="mb-0 mt-4">@(item.Product.Price* item.Quantity) $</p>
                                 </td>
                                 <td>
-                                    <a class="btn btn-md rounded-circle bg-light border mt-4" href="/cart/delete/@item.CartItemId">
+                                    <a class="btn btn-md rounded-circle bg-light border mt-3"
+                                        href="/cart/delete/@item.CartItemId">
                                         <i class="fa fa-times text-danger"></i>
                                     </a>
                                 </td>
@@ -92,7 +97,8 @@
                         <h5 class="mb-0 ps-4 me-4">Total</h5>
                         <p class="mb-0 pe-4">$@total.ToString("F2")</p>
                     </div>
-                    <a class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" href="/cart/checkout">Proceed Checkout</a>
+                    <a class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+                        href="/cart/checkout">Proceed Checkout</a>
                 </div>
             </div>
         </div>
