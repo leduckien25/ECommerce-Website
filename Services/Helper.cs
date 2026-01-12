@@ -41,22 +41,20 @@ namespace WebApplicationMvc.Services
             return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
         }
 
-        public static string GetIdAddress(HttpContext context)
+        public static string GetIpAddress(HttpContext context)
         {
-            var ipAddress = context?.Connection?.RemoteIpAddress;
-
             string clientIp = "127.0.0.1";
-            if (ipAddress != null)
-            {
-                if (ipAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-                {
-                    ipAddress = System.Net.Dns.GetHostEntry(ipAddress).AddressList
-                        .FirstOrDefault(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
-                }
 
+            if (context is null)
+            {
+                return clientIp;
             }
 
-            return ipAddress?.ToString() ?? clientIp;
+            var ipAddress = context.Connection.RemoteIpAddress.ToString();
+
+            if (ipAddress == "::1") ipAddress = "127.0.0.1";
+            return ipAddress ?? "127.0.0.1";
+
         }
 
         public static string RandomString(int length)

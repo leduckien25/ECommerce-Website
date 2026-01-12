@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplicationMvc.Models;
+
 public partial class Product
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

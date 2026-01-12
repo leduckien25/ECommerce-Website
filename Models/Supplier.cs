@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplicationMvc.Models;
+
 public partial class Supplier
 {
     [MaxLength(16)]

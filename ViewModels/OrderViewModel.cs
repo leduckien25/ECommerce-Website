@@ -1,6 +1,4 @@
-﻿using WebApplicationMvc.Models;
-
-namespace WebApplicationMvc.ViewModels
+﻿namespace WebApplicationMvc.ViewModels
 {
     public class OrderViewModel
     {
@@ -12,6 +10,6 @@ namespace WebApplicationMvc.ViewModels
         public string PostalCode { get; set; }
         public string PhoneNumber { get; set; }
         public string? Note { get; set; }
-        public string PaymentMethod { get; set; } 
+        public string PaymentMethod { get; set; }
     }
 }

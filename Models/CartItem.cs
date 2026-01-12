@@ -21,6 +21,6 @@ namespace WebApplicationMvc.Models
 
         [ForeignKey(nameof(ProductId))]
         [Required]
-        public Product Product { get; set; } 
+        public Product Product { get; set; }
     }
 }

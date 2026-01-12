@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
-using System.Linq;
 using WebApplicationMvc.Data;
 using WebApplicationMvc.Models;
 using WebApplicationMvc.ViewModels;

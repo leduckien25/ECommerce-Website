@@ -93,7 +93,7 @@ namespace WebApplicationMvc.Controllers
                 {
                     UserId = User.GetUserId(),
                     OrderDate = DateTime.Now,
-                    TotalAmount = Provider.Cart.GetTotalAmount(User.GetUserId()),
+                    TotalAmount = Provider.Cart.GetTotalAmount(User.GetUserId()) * 1000,
                     PaymentMethod = model.PaymentMethod,
                     FullName = $"{model.FirstName} {model.LastName}",
                     Address = model.Address,
@@ -119,7 +119,6 @@ namespace WebApplicationMvc.Controllers
                     }
                     else
                     {
-                        //return Json(order);
                         return Redirect(service.CreatePaymentUrl(order));
                     }
                 }
@@ -132,8 +131,9 @@ namespace WebApplicationMvc.Controllers
         {
             if (obj.ResponseCode == "00")
             {
-                int ret = Provider.Order.UpdateOrder(int.Parse(obj.TxnRef), "Paid");    
-                if(ret > 0) {
+                int ret = Provider.Order.UpdateOrder(int.Parse(obj.TxnRef), "Paid");
+                if (ret > 0)
+                {
                     return RedirectToAction("OrderSuccess", Provider.Order.GetOrderById(int.Parse(obj.TxnRef)));
                 }
             }

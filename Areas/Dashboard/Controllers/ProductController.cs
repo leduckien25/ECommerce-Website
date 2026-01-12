@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplicationMvc.Controllers;
 using WebApplicationMvc.Models;
 using WebApplicationMvc.Services;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebApplicationMvc.Areas.Dashboard.Controllers
 {

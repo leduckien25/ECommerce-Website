@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Composition.Convention;
 using WebApplicationMvc.Data;
 using WebApplicationMvc.Models;
 using WebApplicationMvc.ViewModels;

@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
-using System.Threading.Tasks;
 using WebApplicationMvc.Controllers;
 using WebApplicationMvc.ViewModels;
 
@@ -297,7 +295,7 @@ public class AccountController : BaseController
 
             var user = await _userManager.GetUserAsync(User);
 
-            if(user is null)
+            if (user is null)
             {
                 return RedirectToAction("Login");
             }
@@ -429,7 +427,7 @@ public class AccountController : BaseController
     {
         var user = await _userManager.GetUserAsync(User);
 
-        if(user == null)
+        if (user == null)
         {
             return Redirect("/account/Login");
         }

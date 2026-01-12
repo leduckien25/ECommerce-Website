@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Specialized;
 using WebApplicationMvc.Controllers;
 using WebApplicationMvc.Models;
 

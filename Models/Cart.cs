@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace WebApplicationMvc.Models;
+﻿namespace WebApplicationMvc.Models;
 
 public class Cart
 {

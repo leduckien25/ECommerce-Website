@@ -11,7 +11,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<SiteProvider>();
 
-builder.Services.Configure<VnPayParameter>(builder.Configuration.GetSection("Payment:VnPay"));
+builder.Services.Configure<VnPayParameters>(builder.Configuration.GetSection("Payment:VnPay:Parameters"));
+builder.Services.Configure<VnPayConfig>(builder.Configuration.GetSection("Payment:VnPay:Config"));
 builder.Services.AddScoped<VnPayService>();
 
 builder.Services.AddDbContext<EcommerceDbContext>(op =>
@@ -38,7 +39,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.ClientId = builder.Configuration["OAuth:Google:client_id"];
         options.ClientSecret = builder.Configuration["OAuth:Google:client_secret"];
-        options.CallbackPath = "/signin-google";
     });
 
 builder.Services.AddSession();

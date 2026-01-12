@@ -74,7 +74,7 @@ namespace WebApplicationMvc.Controllers
             ViewBag.Product = product;
             ViewBag.Categories = Provider.Category.GetCategoryViewModels();
             ViewBag.Suppliers = Provider.Supplier.GetSupplierViewModels();
-            ViewBag.ProductsRelation = Provider.Product.GetProductViewModelsRelation(product.ProductId, 6, 1,out int pages);
+            ViewBag.ProductsRelation = Provider.Product.GetProductViewModelsRelation(product.ProductId, 6, 1, out int pages);
 
             return View();
         }

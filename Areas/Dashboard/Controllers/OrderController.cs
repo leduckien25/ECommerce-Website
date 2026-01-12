@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplicationMvc.Controllers;
-using WebApplicationMvc.Models;
 
 namespace WebApplicationMvc.Areas.Dashboard.Controllers
 {

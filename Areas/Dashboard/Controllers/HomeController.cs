@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplicationMvc.Controllers;
 
 namespace WebApplicationMvc.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
-    [Authorize(Roles ="Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager")]
     public class HomeController : BaseController
     {
         UserManager<IdentityUser> _userManager;

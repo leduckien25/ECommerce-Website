@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration.UserSecrets;
 using WebApplicationMvc.Data;
 using WebApplicationMvc.Models;
 
@@ -21,7 +20,7 @@ namespace WebApplicationMvc.Repositories
         public int AddToCart(string userId, int productId, int quantity)
         {
             var cart = GetCart(userId);
-            if(cart.CartId == 0)
+            if (cart.CartId == 0)
             {
                 context.Carts.Add(cart);
                 context.SaveChanges();
@@ -34,12 +33,13 @@ namespace WebApplicationMvc.Repositories
             }
 
             var cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
-            if (cartItem != null) {
+            if (cartItem != null)
+            {
                 cartItem.Quantity += quantity;
             }
             else
             {
-                cart.CartItems.Add(new CartItem { CartId = cart.CartId ,ProductId = productId, Quantity = quantity });
+                cart.CartItems.Add(new CartItem { CartId = cart.CartId, ProductId = productId, Quantity = quantity });
             }
             return context.SaveChanges();
         }
