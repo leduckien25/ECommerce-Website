@@ -80,12 +80,11 @@ namespace WebApplicationMvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            Console.WriteLine(Provider.Cart.GetTotalAmount(userId));
             return View(cart);
         }
 
         [HttpPost]
-        public IActionResult Checkout(OrderViewModel model)
+        public IActionResult Checkout(CheckoutViewModel model)
         {
             if (ModelState.IsValid)
             {

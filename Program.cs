@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using WebApplicationMvc.Data;
 using WebApplicationMvc.Providers;
 using WebApplicationMvc.Services.Payment;
+using WebApplicationMvc.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.Configure<VnPayParameters>(builder.Configuration.GetSection("Payment:VnPay:Parameters"));
 builder.Services.Configure<VnPayConfig>(builder.Configuration.GetSection("Payment:VnPay:Config"));
@@ -50,15 +51,19 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
-app.UseSession();
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
 app.UseRouting();
+
+app.UseSession();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseStaticFiles();
 app.MapDefaultControllerRoute();
 app.MapControllerRoute(
     name: "areas",

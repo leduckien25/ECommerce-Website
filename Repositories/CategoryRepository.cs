@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplicationMvc.Data;
 using WebApplicationMvc.Models;
+using WebApplicationMvc.Repositories.Interfaces;
 using WebApplicationMvc.ViewModels;
 
 namespace WebApplicationMvc.Repositories

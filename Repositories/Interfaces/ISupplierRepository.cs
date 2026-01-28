@@ -1,7 +1,7 @@
 ﻿using WebApplicationMvc.Models;
 using WebApplicationMvc.ViewModels;
 
-namespace WebApplicationMvc.Repositories
+namespace WebApplicationMvc.Repositories.Interfaces
 {
     public interface ISupplierRepository
     {

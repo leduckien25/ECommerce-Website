@@ -1,6 +1,6 @@
 ﻿namespace WebApplicationMvc.ViewModels
 {
-    public class OrderViewModel
+    public class CheckoutViewModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

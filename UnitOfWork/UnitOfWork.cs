@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Threading.Tasks;
-using WebApplicationMvc.Data;
+﻿using WebApplicationMvc.Data;
 using WebApplicationMvc.Repositories;
+using WebApplicationMvc.Repositories.Interfaces;
 using WebApplicationMvc.UnitOfWork;
 
 namespace WebApplicationMvc.Providers
 {
-    public class UnitOfWork: IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly EcommerceDbContext context;
 
@@ -16,50 +14,30 @@ namespace WebApplicationMvc.Providers
             this.context = context;
         }
 
-        private CategoryRepository category;
-        public CategoryRepository Category
+        private ICategoryRepository? category;
+        public ICategoryRepository Category => category ??= new CategoryRepository(context);
+
+        private ISupplierRepository? supplier;
+        public ISupplierRepository Supplier => supplier ??= new SupplierRepository(context);
+
+        private IProductRepository? product;
+        public IProductRepository Product => product ??= new ProductRepository(context);
+
+        private ICartRepository? cart;
+        public ICartRepository Cart => cart ??= new CartRepository(context);
+
+        private IOrderRepository? order;
+        public IOrderRepository Order => order ??= new OrderRepository(context);
+
+        public int SaveChanges()
         {
-            get
-            {
-                return category ??= new CategoryRepository(context);
-            }
-        }
-        SupplierRepository supplier;
-        public SupplierRepository Supplier
-        {
-            get
-            {
-                return supplier ??= new SupplierRepository(context);
-            }
-        }
-        ProductRepository product;
-        public ProductRepository Product
-        {
-            get
-            {
-                return product ??= new ProductRepository(context);
-            }
-        }
-        CartRepository cart;
-        public CartRepository Cart
-        {
-            get
-            {
-                return cart ??= new CartRepository(context);
-            }
-        }
-        OrderRepository order;
-        public OrderRepository Order
-        {
-            get
-            {
-                return order ??= new OrderRepository(context);
-            }
+            return context.SaveChanges();
         }
 
         public void Dispose()
         {
             context.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

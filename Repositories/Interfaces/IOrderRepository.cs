@@ -1,6 +1,6 @@
 ﻿using WebApplicationMvc.Models;
 
-namespace WebApplicationMvc.Repositories
+namespace WebApplicationMvc.Repositories.Interfaces
 {
     public interface IOrderRepository
     {

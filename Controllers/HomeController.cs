@@ -8,7 +8,7 @@ namespace WebApplicationMvc.Controllers
         public IActionResult Index()
         {
             ViewData["Title"] = "Home";
-            if (User.Identity.IsAuthenticated)
+            if (User?.Identity != null && User.Identity.IsAuthenticated)
             {
                 HttpContext.Session.SetInt32("CartCount", Provider.Cart.GetCartItemCount(User.GetUserId()));
             }
