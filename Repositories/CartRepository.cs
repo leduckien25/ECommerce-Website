@@ -4,78 +4,88 @@ using WebApplicationMvc.Models;
 
 namespace WebApplicationMvc.Repositories
 {
-    public class CartRepository : BaseRepository
+    public class CartRepository : BaseRepository, ICartRepository
     {
         public CartRepository(EcommerceDbContext context) : base(context)
         {
         }
 
-        public Cart GetCart(string userId)
+        public Cart? GetCart(string userId)
         {
-            var cart = context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.Product).FirstOrDefault(c => c.UserId == userId);
-
-            return cart ?? new Cart { UserId = userId };
+            return context.Carts
+                          .Include(c => c.CartItems)
+                          .ThenInclude(ci => ci.Product)
+                          .SingleOrDefault(c => c.UserId == userId);
         }
 
-        public int AddToCart(string userId, int productId, int quantity)
+        public void AddToCart(string userId, int productId, int quantity)
         {
-            var cart = GetCart(userId);
-            if (cart.CartId == 0)
+            var cart = context.Carts
+                                  .Include(c => c.CartItems)
+                                  .SingleOrDefault(c => c.UserId == userId);
+            if (cart is null)
             {
+                cart = new Cart
+                {
+                    UserId = userId,
+                    CartItems = new List<CartItem>()
+                };
                 context.Carts.Add(cart);
-                context.SaveChanges();
             }
 
-            var product = context.Products.FirstOrDefault(p => p.ProductId == productId);
+            var product = context.Products.SingleOrDefault(p => p.ProductId == productId);
+
             if (product == null)
-            {
-                throw new Exception();
-            }
+                throw new Exception($"Not found product with this id: {productId}");
 
-            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
+            var cartItem = cart.CartItems.SingleOrDefault(ci => ci.ProductId == productId);
             if (cartItem != null)
             {
                 cartItem.Quantity += quantity;
             }
             else
             {
-                cart.CartItems.Add(new CartItem { CartId = cart.CartId, ProductId = productId, Quantity = quantity });
+                cart.CartItems.Add(new CartItem
+                {
+                    ProductId = productId,
+                    Quantity = quantity
+                });
             }
-            return context.SaveChanges();
         }
 
         public int GetCartItemCount(string userId)
         {
-            var cart = GetCart(userId);
-            return cart.CartItems.Count();
+            return context.CartItems
+                  .Count(ci => ci.Cart.UserId == userId);
         }
 
         public decimal GetTotalAmount(string userId)
         {
-            var cart = GetCart(userId);
-            return cart.CartItems.Sum(ci => (ci.Product.Price ?? 0) * ci.Quantity);
+            return context.CartItems
+                .Where(ci => ci.Cart.UserId == userId)
+                .Sum(ci => (ci.Product.Price ?? 0) * ci.Quantity);
         }
 
-        public int Delete(int cartItemId)
+        public void Delete(int cartItemId)
         {
-            var cartItem = context.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId);
+            var cartItem = context.CartItems.SingleOrDefault(ci => ci.CartItemId == cartItemId);
             if (cartItem != null)
             {
                 context.CartItems.Remove(cartItem);
-                return context.SaveChanges();
             }
-            return -1;
         }
 
-        internal void ClearCart(string userId)
+        public void ClearCart(string userId)
         {
-            var cart = GetCart(userId);
-            if (cart.CartId != 0)
-            {
-                context.CartItems.RemoveRange(cart.CartItems);
-                context.Carts.Remove(cart);
-                context.SaveChanges();
-            }
+            var cart = context.Carts
+                      .Include(c => c.CartItems)
+                      .SingleOrDefault(c => c.UserId == userId);
+
+            if (cart == null)
+                return;
+
+            context.CartItems.RemoveRange(cart.CartItems);
+            context.Carts.Remove(cart);
         }
     }
 }

@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<SiteProvider>();
+builder.Services.AddScoped<UnitOfWork>();
 
 builder.Services.Configure<VnPayParameters>(builder.Configuration.GetSection("Payment:VnPay:Parameters"));
 builder.Services.Configure<VnPayConfig>(builder.Configuration.GetSection("Payment:VnPay:Config"));

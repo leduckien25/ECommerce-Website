@@ -4,22 +4,22 @@ using WebApplicationMvc.Models;
 
 namespace WebApplicationMvc.Repositories
 {
-    public class OrderRepository : BaseRepository
+    public class OrderRepository : BaseRepository, IOrderRepository
     {
         public OrderRepository(EcommerceDbContext context) : base(context)
         {
         }
 
-        public List<Order> GetOrders()
+        public IEnumerable<Order> GetOrders()
         {
             return context.Orders.ToList();
         }
-        public List<Order> GetOrders(out int totalPages, int page, int size = 12)
+        public IEnumerable<Order> GetOrders(out int totalPages, int page, int size = 12)
         {
             totalPages = (context.Orders.Count() - 1) / size + 1;
             return context.Orders.Skip(size * (page - 1)).Take(size).ToList();
         }
-        public List<Order> GetRecentOrders(int size = 10)
+        public IEnumerable<Order> GetRecentOrders(int size = 10)
         {
             return context.Orders.OrderByDescending(o => o.OrderDate).Take(size).ToList();
         }
@@ -27,34 +27,33 @@ namespace WebApplicationMvc.Repositories
         {
             return context.Orders.Count();
         }
-        public Order? GetOrderById(int orderId)
+        public Order? GetOrder(int orderId)
         {
             return context.Orders
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)
                 .FirstOrDefault(o => o.OrderId == orderId);
         }
-        public Order? GetOrderByUserId(string userId)
+        public IEnumerable<Order> GetOrders(string userId)
         {
-            return context.Orders.FirstOrDefault(o => o.UserId == userId);
+            return context.Orders.Where(o => o.UserId == userId);
         }
 
-        public int CreateOrder(Order order)
+        public void Create(Order order)
         {
             context.Orders.Add(order);
-            return context.SaveChanges();
         }
 
-        public int UpdateOrder(int id, string status)
+        public bool UpdateStatus(int id, string status)
         {
-            var order = GetOrderById(id);
+            var order = GetOrder(id);
 
             if (order == null)
             {
-                return -1;
+                return false;
             }
             order.Status = status;
-            return context.SaveChanges();
+            return true;
         }
 
         public decimal GetTotalRevenue()
@@ -62,19 +61,19 @@ namespace WebApplicationMvc.Repositories
             return context.Orders.Sum(o => o.TotalAmount);
         }
 
-        public int DeleteItem(int id)
+        public bool DeleteOrderDetail(int id)
         {
-            var orderDetails = context.OrderDetails.SingleOrDefault(od => od.OrderId == id);
+            var orderDetails = context.OrderDetails.SingleOrDefault(od => od.OrderDetailId == id);
             if (orderDetails == null)
             {
-                return -1;
+                return false;
             }
 
             context.OrderDetails.Remove(orderDetails);
-            return context.SaveChanges();
+            return true;
         }
 
-        internal OrderDetail? GetOrderDetailById(int orderDetailId)
+        public OrderDetail? GetOrderDetail(int orderDetailId)
         {
             return context.OrderDetails.FirstOrDefault(od => od.OrderDetailId == orderDetailId);
         }

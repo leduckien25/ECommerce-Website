@@ -5,7 +5,7 @@ using WebApplicationMvc.ViewModels;
 
 namespace WebApplicationMvc.Repositories
 {
-    public class SupplierRepository : BaseRepository
+    public class SupplierRepository : BaseRepository, ISupplierRepository
     {
         public SupplierRepository(EcommerceDbContext context) : base(context)
         {
@@ -17,18 +17,8 @@ namespace WebApplicationMvc.Repositories
             return context.Suppliers.Skip((page - 1) * size).Take(size);
         }
 
-        public Supplier GetSupplier(short id) => context.Suppliers.Find(id);
-        public IEnumerable<SupplierViewModel> GetSupplierViewModels()
-                => context.Suppliers
-                .Include(c => c.Products)
-                .Select(c => new SupplierViewModel
-                {
-                    SupplierId = c.SupplierId,
-                    SupplierName = c.SupplierName,
-                    ProductCount = c.Products.Count()
-                }).ToList();
-
-        public int Add(Supplier Supplier)
+        public Supplier? GetSupplier(string id) => context.Suppliers.SingleOrDefault(s => s.SupplierId == id);
+        public void Add(Supplier Supplier)
         {
             var names = Supplier.SupplierName.Split(' ').ToList();
 
@@ -37,22 +27,18 @@ namespace WebApplicationMvc.Repositories
             Supplier.SupplierId = id;
 
             context.Suppliers.Add(Supplier);
-            return context.SaveChanges();
         }
-        public int Update(Supplier Supplier)
+        public void Update(Supplier Supplier)
         {
             context.Suppliers.Update(Supplier);
-            return context.SaveChanges();
         }
-        public int Delete(string id)
+        public void Delete(string id)
         {
             var Supplier = context.Suppliers.Find(id);
             if (Supplier != null)
             {
                 context.Suppliers.Remove(Supplier);
-                return context.SaveChanges();
             }
-            return -1;
         }
 
         public int GetSuppliersCount()
