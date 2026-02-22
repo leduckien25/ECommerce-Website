@@ -91,13 +91,6 @@
 
 @section Scripts {
     <script>
-        @if (TempData["message"] != null)
-        {
-                        <text>
-                        alert('@TempData["message"]');
-                        </text>
-        }
-
         $('.product-row').click(function(){
             var id = $(this).data('id')
             window.location.href='/dashboard/product/details/'+ id

@@ -2,19 +2,28 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplicationMvc.Controllers;
 using WebApplicationMvc.Models;
+using WebApplicationMvc.Services.Interfaces;
 
 namespace WebApplicationMvc.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     [Authorize(Roles = "Admin, Manager")]
-    public class SupplierController : BaseController
+    public class SupplierController : Controller
     {
+        private readonly ISupplierService _supplierService;
+        private readonly int pageSize = 12;
+
+        public SupplierController(ISupplierService supplierService)
+        {
+            _supplierService = supplierService;
+        }
+
         public IActionResult Index([FromRoute(Name = "id")] int page = 1)
         {
-            var suppliers = Provider.Supplier.GetSuppliers(out int pages, page);
+            var suppliers = _supplierService.GetSuppliersForAdmin(page, pageSize);
 
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = pages;
+            ViewBag.TotalPages = _supplierService.GetTotalPages(pageSize);
 
             return View(suppliers);
         }
@@ -22,14 +31,12 @@ namespace WebApplicationMvc.Areas.Dashboard.Controllers
         public IActionResult Details(string id)
         {
             ViewData["Title"] = "Supplier Details";
-            return View(Provider.Supplier.GetSupplierWithProducts(id));
+            return View(_supplierService.GetSupplierWithProducts(id));
         }
 
         public IActionResult Update(Supplier supplier)
         {
-            int ret = Provider.Supplier.Update(supplier);
-
-            if (ret > 0)
+            if (_supplierService.Update(supplier))
             {
                 TempData["message"] = "Update supplier successfully";
             }
@@ -42,9 +49,8 @@ namespace WebApplicationMvc.Areas.Dashboard.Controllers
 
         public IActionResult Delete(string id)
         {
-            int ret = Provider.Supplier.Delete(id);
 
-            if (ret > 0)
+            if (_supplierService.Delete(id))
             {
                 TempData["message"] = "Delete supplier successfully";
             }
@@ -60,9 +66,9 @@ namespace WebApplicationMvc.Areas.Dashboard.Controllers
         public IActionResult Add(Supplier supplier)
         {
 
-            int ret = Provider.Supplier.Add(supplier);
+            var newSupplier = _supplierService.Create(supplier);
 
-            if (ret > 0)
+            if (newSupplier is not null)
             {
                 TempData["message"] = "Add supplier successfully";
             }

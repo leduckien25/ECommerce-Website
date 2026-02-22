@@ -1,39 +1,51 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplicationMvc.Services.Interfaces;
 
 namespace WebApplicationMvc.Controllers
 {
-
-    public class ProductController : BaseController
+    public class ProductController : Controller
     {
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
+        private readonly ISupplierService _supplierService;
         const int pageSize = 9;
+
+        public ProductController(
+            IProductService productService,
+            ICategoryService categoryService,
+            ISupplierService supplierService)
+        {
+            _productService = productService;
+            _categoryService = categoryService;
+            _supplierService = supplierService;
+        }
 
         [HttpGet("/product/index/{p?}")]
         public IActionResult Index(int p = 1)
         {
             ViewData["Title"] = "Product";
 
-            ViewBag.Categories = Provider.Category.GetCategoryViewModels();
-            ViewBag.Suppliers = Provider.Supplier.GetSupplierViewModels();
-            ViewBag.Products = Provider.Product.GetProductViewModels(pageSize, p, out int pages);
-            ViewBag.TotalPages = pages;
+            ViewBag.Categories = _categoryService.GetCategoriesForDisplay();
+            ViewBag.Suppliers = _supplierService.GetSuppliersForDisplay();
+            ViewBag.Products = _productService.GetProducts(p, pageSize);
+
+            ViewBag.TotalPages = _productService.GetTotalPages();
             ViewBag.CurrentPage = p;
 
             return View();
         }
+
         [HttpGet("/product/category/{id}/{p?}")]
         public IActionResult Category(short id, int p = 1)
         {
             ViewData["Title"] = "Product";
 
-            ViewBag.Categories = Provider.Category.GetCategoryViewModels();
-            ViewBag.Suppliers = Provider.Supplier.GetSupplierViewModels();
+            var products = _productService
+                .GetProductsByCategory(id, pageSize, p, out int pages)
+                .ToList();
 
-            var products = Provider.Product.GetProductViewModelsByCategory(id, pageSize, p, out int pages).ToList();
-
-            if (products.Count == 0)
-            {
-                return Redirect("/product");
-            }
+            ViewBag.Categories = _categoryService.GetCategoriesForDisplay();
+            ViewBag.Suppliers = _supplierService.GetSuppliersForDisplay();
             ViewBag.Products = products;
             ViewBag.TotalPages = pages;
             ViewBag.CurrentPage = p;
@@ -46,17 +58,18 @@ namespace WebApplicationMvc.Controllers
         public IActionResult Supplier(string id, int p = 1)
         {
             ViewData["Title"] = "Product";
-            ViewBag.Categories = Provider.Category.GetCategoryViewModels();
-            ViewBag.Suppliers = Provider.Supplier.GetSupplierViewModels();
-            var products = Provider.Product.GetProductViewModelsBySupplier(id, pageSize, p, out int pages).ToList();
-            if (products.Count == 0)
-            {
-                return Redirect("/product");
-            }
+
+            var products = _productService
+                .GetProductsBySupplier(id, pageSize, p, out int pages)
+                .ToList();
+
+            ViewBag.Categories = _categoryService.GetCategoriesForDisplay();
+            ViewBag.Suppliers = _supplierService.GetSuppliersForDisplay();
             ViewBag.Products = products;
             ViewBag.TotalPages = pages;
             ViewBag.CurrentPage = p;
             ViewBag.SupplierId = id;
+
             return View();
         }
 
@@ -64,22 +77,18 @@ namespace WebApplicationMvc.Controllers
         {
             ViewData["Title"] = "Detail";
 
-            var product = Provider.Product.GetProductViewModel(id);
-
+            var product = _productService.GetProduct(id);
             if (product == null)
-            {
-                return Redirect("/product");
-            }
+                return NotFound();
 
             ViewBag.Product = product;
-            ViewBag.Categories = Provider.Category.GetCategoryViewModels();
-            ViewBag.Suppliers = Provider.Supplier.GetSupplierViewModels();
-            ViewBag.ProductsRelation = Provider.Product.GetProductViewModelsRelation(product.ProductId, 6, 1, out int pages);
+            ViewBag.Categories = _categoryService.GetCategoriesForDisplay();
+            ViewBag.Suppliers = _supplierService.GetSuppliersForDisplay();
+            ViewBag.ProductsRelation =
+                _productService.GetRelatedProducts(product.ProductId, 6);
 
             return View();
         }
-
-
 
     }
 }

@@ -1,34 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplicationMvc.Data;
 using WebApplicationMvc.Models;
+using WebApplicationMvc.Repositories.Interfaces;
 using WebApplicationMvc.ViewModels;
 
 namespace WebApplicationMvc.Repositories
 {
-    public class SupplierRepository : BaseRepository
+    public class SupplierRepository : BaseRepository, ISupplierRepository
     {
         public SupplierRepository(EcommerceDbContext context) : base(context)
         {
         }
-        public IEnumerable<Supplier> GetSuppliers() => context.Suppliers;
-        public IEnumerable<Supplier> GetSuppliers(out int pages, int page, int size = 12)
+        public IEnumerable<Supplier> GetSuppliersWithProducts() => context.Suppliers.Include(s => s.Products);
+        public IEnumerable<Supplier> GetSuppliers(int page, int size = 12)
         {
-            pages = (context.Suppliers.Count() - 1) / size + 1;
             return context.Suppliers.Skip((page - 1) * size).Take(size);
         }
 
-        public Supplier GetSupplier(short id) => context.Suppliers.Find(id);
-        public IEnumerable<SupplierViewModel> GetSupplierViewModels()
-                => context.Suppliers
-                .Include(c => c.Products)
-                .Select(c => new SupplierViewModel
-                {
-                    SupplierId = c.SupplierId,
-                    SupplierName = c.SupplierName,
-                    ProductCount = c.Products.Count()
-                }).ToList();
-
-        public int Add(Supplier Supplier)
+        public Supplier? GetSupplier(string id) => context.Suppliers.SingleOrDefault(s => s.SupplierId == id);
+        public void Add(Supplier Supplier)
         {
             var names = Supplier.SupplierName.Split(' ').ToList();
 
@@ -37,22 +27,18 @@ namespace WebApplicationMvc.Repositories
             Supplier.SupplierId = id;
 
             context.Suppliers.Add(Supplier);
-            return context.SaveChanges();
         }
-        public int Update(Supplier Supplier)
+        public void Update(Supplier Supplier)
         {
             context.Suppliers.Update(Supplier);
-            return context.SaveChanges();
         }
-        public int Delete(string id)
+        public void Delete(string id)
         {
             var Supplier = context.Suppliers.Find(id);
             if (Supplier != null)
             {
                 context.Suppliers.Remove(Supplier);
-                return context.SaveChanges();
             }
-            return -1;
         }
 
         public int GetSuppliersCount()

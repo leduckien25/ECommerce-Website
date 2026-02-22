@@ -1,0 +1,19 @@
+﻿using WebApplicationMvc.Models;
+using WebApplicationMvc.ViewModels;
+
+namespace WebApplicationMvc.Repositories.Interfaces
+{
+    public interface ICategoryRepository
+    {
+        IEnumerable<Category> GetCategoriesWithProducts();
+        IEnumerable<Category> GetCategories(int page, int size = 12);
+
+        Category GetCategory(short id);
+        Category GetCategoryWithProducts(short id);
+        void Add(Category category);
+        void Update(Category category);
+        void Delete(short id);
+
+        int GetCategoriesCount();
+    }
+}

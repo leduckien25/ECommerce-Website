@@ -24,5 +24,5 @@ public partial class Supplier
 
     [MaxLength(1024)]
     public string? Description { get; set; }
-    public List<Product> Products { get; set; } = new List<Product>();
+    public ICollection<Product> Products { get; set; } = new List<Product>();
 }

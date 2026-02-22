@@ -1,18 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApplicationMvc.Controllers;
+using WebApplicationMvc.Services.Interfaces;
 
 namespace WebApplicationMvc.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     [Authorize(Roles = "Admin, Manager")]
-    public class OrderController : BaseController
+    public class OrderController : Controller
     {
+        private readonly IOrderService _orderService;
+        private readonly int pageSize = 12;
+
+        public OrderController(IOrderService orderService)
+        {
+            _orderService = orderService;
+        }
+
         public IActionResult Index([FromRoute(Name = "id")] int page = 1)
         {
             ViewData["Title"] = "Orders";
-            var orders = Provider.Order.GetOrders(out int totalPages, page);
-            ViewBag.TotalPages = totalPages;
+
+            var orders = _orderService.GetOrders(page, pageSize);
+            ViewBag.TotalPages = _orderService.GetTotalPages(pageSize);
             ViewBag.CurrentPage = page;
             return View(orders);
         }
@@ -20,34 +29,17 @@ namespace WebApplicationMvc.Areas.Dashboard.Controllers
 
         public IActionResult Details(int id)
         {
-            return View(Provider.Order.GetOrderById(id));
+            return View(_orderService.GetOrder(id));
         }
 
         public IActionResult UpdateStatus(int id, string status)
         {
-            var order = Provider.Order.GetOrderById(id);
-            if (order == null)
-                return NotFound();
-
-            int ret = Provider.Order.UpdateOrder(id, status);
-
-            if (ret > 0)
-            {
-                return Json(new
-                {
-                    success = true,
-                    message = "Order status updated successfully."
-                });
-            }
+            if (_orderService.UpdateStatus(id, status))
+                TempData["Message"] = "Update order successfully";
             else
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Failed to update order status."
-                });
-            }
+                TempData["Message"] = "Failed to update order";
 
+            return Redirect("/dashboard/order");
         }
 
     }

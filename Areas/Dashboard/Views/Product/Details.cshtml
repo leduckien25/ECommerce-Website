@@ -11,20 +11,20 @@
             <div class="col-md-7">
                 <dl class="row mb-0">
                     <input asp-for="ProductId" type="hidden" />
-                    <input asp-for="ImageUrl" type="hidden" />
+                    <input asp-for="FileName" type="hidden" />
 
                     <dt class="col-md-4 col-sm-5 text-muted fw-semibold">Name</dt>
                     <dd class="col-md-8 col-sm-7"><input asp-for="ProductName" class="border-0 rounded-2 shadow-sm" required/></dd>
 
                     <dt class="col-md-4 col-sm-5 text-muted fw-semibold">Category</dt>
                     <dd class="col-md-8 col-sm-7">
-                        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="border-0 rounded-2 shadow-sm" required>
+                        <select asp-for="CategoryId" asp-items="ViewBag.CategoriesList" class="border-0 rounded-2 shadow-sm" required>
                         </select>
                     </dd>
 
                     <dt class="col-md-4 col-sm-5 text-muted fw-semibold">Supplier</dt>
                     <dd class="col-md-8 col-sm-7">
-                        <select asp-for="SupplierId" asp-items="@ViewBag.Suppliers" class="border-0 rounded-2 shadow-sm" required>
+                        <select asp-for="SupplierId" asp-items="@ViewBag.SuppliersList" class="border-0 rounded-2 shadow-sm" required>
                         </select>
                     </dd>
 
@@ -46,7 +46,7 @@
 
             <div class="col-md-5 d-flex align-items-center justify-content-center">
                 <div class="border-0" style="width:100%; max-width:250px; aspect-ratio:1/1; position: relative;">
-                    <img id="preview" src="/images/products/@Model.ImageUrl"
+                    <img id="preview" src="/images/products/@Model.FileName"
                          class="w-100 h-100 object-fit-cover" />
                     <input type="file" name="file" accept="image/*" onchange="showPreview(event)" />
                 </div>
