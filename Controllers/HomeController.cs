@@ -1,22 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplicationMvc.Services;
+using WebApplicationMvc.Services.Interfaces;
 
 namespace WebApplicationMvc.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
+        private readonly ICartService _cartService;
+
+        public HomeController(ICartService cartService)
+        {
+            _cartService = cartService;
+        }
+
         public IActionResult Index()
         {
             ViewData["Title"] = "Home";
             if (User?.Identity != null && User.Identity.IsAuthenticated)
-            {
-                HttpContext.Session.SetInt32("CartCount", Provider.Cart.GetCartItemCount(User.GetUserId()));
-            }
+                HttpContext.Session.SetInt32("CartCount", _cartService.GetItemCount(User.GetUserId()));
 
-            return View();
-        }
-        public IActionResult Contact()
-        {
             return View();
         }
     }

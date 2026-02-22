@@ -11,10 +11,9 @@ namespace WebApplicationMvc.Repositories
         public SupplierRepository(EcommerceDbContext context) : base(context)
         {
         }
-        public IEnumerable<Supplier> GetSuppliers() => context.Suppliers;
-        public IEnumerable<Supplier> GetSuppliers(out int pages, int page, int size = 12)
+        public IEnumerable<Supplier> GetSuppliersWithProducts() => context.Suppliers.Include(s => s.Products);
+        public IEnumerable<Supplier> GetSuppliers(int page, int size = 12)
         {
-            pages = (context.Suppliers.Count() - 1) / size + 1;
             return context.Suppliers.Skip((page - 1) * size).Take(size);
         }
 

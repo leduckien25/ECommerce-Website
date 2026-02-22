@@ -19,13 +19,11 @@ public class ProductRepository : BaseRepository, IProductRepository
         return context.Products.Include(p => p.Category)
                       .Include(p => p.Supplier);
     }
-    public IEnumerable<Product> GetProductsWithDetails(out int pages, int page, int size = 12)
-    {
-        pages = (context.Products.Count() - 1) / size + 1;
-        return context.Products.Include(p => p.Category)
+    public IEnumerable<Product> GetProductsWithDetails(int page, int size = 12)
+         => context.Products.Include(p => p.Category)
                       .Include(p => p.Supplier)
                       .Skip((page - 1) * size).Take(size);
-    }
+
     public Product? GetProduct(int id) => context.Products.Find(id);
     public Product? GetProductWithDetails(int id)
     {
@@ -67,4 +65,6 @@ public class ProductRepository : BaseRepository, IProductRepository
     {
         return context.Products.Count();
     }
+
+    public IEnumerable<Product> GetProductsBySupplier(string id) => context.Products.Where(p => p.SupplierId == id);
 }

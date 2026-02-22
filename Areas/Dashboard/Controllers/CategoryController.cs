@@ -1,20 +1,30 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCoreGeneratedDocument;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplicationMvc.Controllers;
 using WebApplicationMvc.Models;
+using WebApplicationMvc.Services.Interfaces;
 
 namespace WebApplicationMvc.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     [Authorize(Roles = "Admin, Manager")]
-    public class CategoryController : BaseController
+    public class CategoryController : Controller
     {
-        public IActionResult Index([FromRoute(Name = "id")] int page = 1)
+        private readonly ICategoryService _categoryService;
+        private readonly int pageSize = 12;
+
+        public CategoryController(ICategoryService categoryService)
         {
-            var categories = Provider.Category.GetCategories(out int pages, page);
+            _categoryService = categoryService;
+        }
+
+        public IActionResult Index(int page = 1)
+        {
+            var categories = _categoryService.GetCategoriesForAdmin(page, pageSize);
 
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = pages;
+            ViewBag.TotalPages = _categoryService.GetTotalPages(pageSize);
 
             return View(categories);
         }
@@ -22,36 +32,26 @@ namespace WebApplicationMvc.Areas.Dashboard.Controllers
         public IActionResult Details(short id)
         {
             ViewData["Title"] = "Category Details";
-            return View(Provider.Category.GetCategoryWithProducts(id));
+            return View(_categoryService.GetCategoryWithProducts(id));
         }
 
         public IActionResult Update(Category category)
         {
-            int ret = Provider.Category.Update(category);
-
-            if (ret > 0)
-            {
+            if (_categoryService.Update(category))
                 TempData["message"] = "Update category successfully";
-            }
             else
-            {
                 TempData["message"] = "Failed to update category";
-            }
+
             return Redirect("/dashboard/category");
         }
 
         public IActionResult Delete(short id)
         {
-            int ret = Provider.Category.Delete(id);
-
-            if (ret > 0)
-            {
+            if (_categoryService.Delete(id))
                 TempData["message"] = "Delete category successfully";
-            }
             else
-            {
                 TempData["message"] = "Failed to delete category";
-            }
+
             return Redirect("/dashboard/category");
         }
 
@@ -59,16 +59,13 @@ namespace WebApplicationMvc.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Add(Category category)
         {
-            int ret = Provider.Category.Add(category);
+            var newCategory = _categoryService.Create(category);
 
-            if (ret > 0)
-            {
+            if (newCategory is not null)
                 TempData["message"] = "Add category successfully";
-            }
             else
-            {
                 TempData["message"] = "Failed to add category";
-            }
+
             return Redirect("/dashboard/category");
         }
     }

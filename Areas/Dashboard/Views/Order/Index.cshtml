@@ -1,5 +1,13 @@
 ﻿@model IEnumerable<Order>
 <div class="container my-3">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
     <div class="card border-0 shadow">
         <div class="card-header">
             Orders

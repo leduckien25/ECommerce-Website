@@ -5,7 +5,7 @@ namespace WebApplicationMvc.Repositories.Interfaces
     public interface IOrderRepository
     {
         IEnumerable<Order> GetOrders();
-        IEnumerable<Order> GetOrders(out int totalPages, int page, int size = 12);
+        IEnumerable<Order> GetOrders(int page, int size = 12);
         IEnumerable<Order> GetRecentOrders(int size = 10);
 
         int GetOrdersCount();

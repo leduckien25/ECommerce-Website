@@ -16,14 +16,14 @@
 
                     <dt class="col-md-4 col-sm-5 text-muted fw-semibold">Category</dt>
                     <dd class="col-md-8 col-sm-7">
-                        <select asp-for="CategoryId" asp-items="ViewBag.Categories" id="category-select" class="border-0 rounded-2 shadow-sm" required>
+                        <select asp-for="CategoryId" asp-items="ViewBag.CategoriesList" id="category-select" class="border-0 rounded-2 shadow-sm" required>
                             <option value="" disabled selected>Select Category</option>
                         </select>
                     </dd>
 
                     <dt class="col-md-4 col-sm-5 text-muted fw-semibold">Supplier</dt>
                     <dd class="col-md-8 col-sm-7">
-                        <select asp-for="SupplierId" asp-items="@ViewBag.Suppliers" class="border-0 rounded-2 shadow-sm" id="supplier-select" required>
+                        <select asp-for="SupplierId" asp-items="@ViewBag.SuppliersList" class="border-0 rounded-2 shadow-sm" id="supplier-select" required>
                             <option value="" disabled selected>Select Supplier</option>
                         </select>
                     </dd>

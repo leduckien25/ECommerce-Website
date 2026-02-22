@@ -5,8 +5,8 @@ namespace WebApplicationMvc.Repositories.Interfaces
 {
     public interface ISupplierRepository
     {
-        IEnumerable<Supplier> GetSuppliers();
-        IEnumerable<Supplier> GetSuppliers(out int pages, int page, int size = 12);
+        IEnumerable<Supplier> GetSuppliersWithProducts();
+        IEnumerable<Supplier> GetSuppliers(int page, int size = 12);
         Supplier? GetSupplier(string id);
         Supplier? GetSupplierWithProducts(string id);
         int GetSuppliersCount();

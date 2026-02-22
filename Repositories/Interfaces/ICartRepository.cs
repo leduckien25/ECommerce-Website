@@ -4,16 +4,16 @@ namespace WebApplicationMvc.Repositories.Interfaces
 {
     public interface ICartRepository
     {
-        Cart? GetCart(string userId);
+        Cart? GetCartWithItems(string userId);
 
-        void AddToCart(string userId, int productId, int quantity);
+        void AddCartItem(string userId, int productId, int quantity);
 
-        int GetCartItemCount(string userId);
+        int GetItemCount(string userId);
 
         decimal GetTotalAmount(string userId);
 
-        void Delete(int cartItemId);
+        void RemoveCartItem(int cartItemId);
 
-        void ClearCart(string userId);
+        void ClearCartByUserId(string userId);
     }
 }

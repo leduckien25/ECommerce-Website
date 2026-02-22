@@ -2,7 +2,7 @@
 
 namespace WebApplicationMvc.Controllers
 {
-    public class ContactController : BaseController
+    public class ContactController : Controller
     {
         public IActionResult Index()
         {

@@ -8,7 +8,6 @@ namespace WebApplicationMvc.Controllers
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
         private readonly ISupplierService _supplierService;
-
         const int pageSize = 9;
 
         public ProductController(
@@ -26,11 +25,11 @@ namespace WebApplicationMvc.Controllers
         {
             ViewData["Title"] = "Product";
 
-            ViewBag.Categories = _categoryService.GetCategories();
-            ViewBag.Suppliers = _supplierService.GetSuppliers();
-            ViewBag.Products = _productService.GetProducts(pageSize, p, out int pages);
+            ViewBag.Categories = _categoryService.GetCategoriesForDisplay();
+            ViewBag.Suppliers = _supplierService.GetSuppliersForDisplay();
+            ViewBag.Products = _productService.GetProducts(p, pageSize);
 
-            ViewBag.TotalPages = pages;
+            ViewBag.TotalPages = _productService.GetTotalPages();
             ViewBag.CurrentPage = p;
 
             return View();
@@ -45,8 +44,8 @@ namespace WebApplicationMvc.Controllers
                 .GetProductsByCategory(id, pageSize, p, out int pages)
                 .ToList();
 
-            ViewBag.Categories = _categoryService.GetCategories();
-            ViewBag.Suppliers = _supplierService.GetSuppliers();
+            ViewBag.Categories = _categoryService.GetCategoriesForDisplay();
+            ViewBag.Suppliers = _supplierService.GetSuppliersForDisplay();
             ViewBag.Products = products;
             ViewBag.TotalPages = pages;
             ViewBag.CurrentPage = p;
@@ -64,8 +63,8 @@ namespace WebApplicationMvc.Controllers
                 .GetProductsBySupplier(id, pageSize, p, out int pages)
                 .ToList();
 
-            ViewBag.Categories = _categoryService.GetCategories();
-            ViewBag.Suppliers = _supplierService.GetSuppliers();
+            ViewBag.Categories = _categoryService.GetCategoriesForDisplay();
+            ViewBag.Suppliers = _supplierService.GetSuppliersForDisplay();
             ViewBag.Products = products;
             ViewBag.TotalPages = pages;
             ViewBag.CurrentPage = p;
@@ -83,8 +82,8 @@ namespace WebApplicationMvc.Controllers
                 return NotFound();
 
             ViewBag.Product = product;
-            ViewBag.Categories = _categoryService.GetCategories();
-            ViewBag.Suppliers = _supplierService.GetSuppliers();
+            ViewBag.Categories = _categoryService.GetCategoriesForDisplay();
+            ViewBag.Suppliers = _supplierService.GetSuppliersForDisplay();
             ViewBag.ProductsRelation =
                 _productService.GetRelatedProducts(product.ProductId, 6);
 

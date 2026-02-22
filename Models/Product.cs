@@ -22,7 +22,7 @@ public partial class Product
     public decimal? Price { get; set; }
 
     [MaxLength(50)]
-    public string? ImageUrl { get; set; }
+    public string? FileName { get; set; }
 
     [Column(TypeName = "datetime")]
     [Required]
@@ -34,8 +34,8 @@ public partial class Product
     public string SupplierId { get; set; } = null!;
 
     [ForeignKey(nameof(CategoryId))]
-    public virtual Category Category { get; set; } = null!;
+    public Category Category { get; set; } = null!;
 
     [ForeignKey(nameof(SupplierId))]
-    public virtual Supplier Supplier { get; set; } = null!;
+    public Supplier Supplier { get; set; } = null!;
 }

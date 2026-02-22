@@ -5,8 +5,8 @@ namespace WebApplicationMvc.Repositories.Interfaces
 {
     public interface ICategoryRepository
     {
-        IEnumerable<Category> GetCategories();
-        IEnumerable<Category> GetCategories(out int pages, int page, int size = 12);
+        IEnumerable<Category> GetCategoriesWithProducts();
+        IEnumerable<Category> GetCategories(int page, int size = 12);
 
         Category GetCategory(short id);
         Category GetCategoryWithProducts(short id);

@@ -13,7 +13,7 @@
                         @for (int i = 1; i <= ViewBag.TotalPages; i++)
                         {
                             <li class="page-item">
-                                <a class="page-link" href="/product/index/@i">@i</a>
+                                <a class="page-link" href="/product/category/@ViewBag.CategoryId/@i">@i</a>
                             </li>
                         }
                     </ul>

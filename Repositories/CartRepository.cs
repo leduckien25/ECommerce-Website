@@ -11,7 +11,7 @@ namespace WebApplicationMvc.Repositories
         {
         }
 
-        public Cart? GetCart(string userId)
+        public Cart? GetCartWithItems(string userId)
         {
             return context.Carts
                           .Include(c => c.CartItems)
@@ -19,7 +19,7 @@ namespace WebApplicationMvc.Repositories
                           .SingleOrDefault(c => c.UserId == userId);
         }
 
-        public void AddToCart(string userId, int productId, int quantity)
+        public void AddCartItem(string userId, int productId, int quantity)
         {
             var cart = context.Carts
                                   .Include(c => c.CartItems)
@@ -54,7 +54,7 @@ namespace WebApplicationMvc.Repositories
             }
         }
 
-        public int GetCartItemCount(string userId)
+        public int GetItemCount(string userId)
         {
             return context.CartItems
                   .Count(ci => ci.Cart.UserId == userId);
@@ -67,7 +67,7 @@ namespace WebApplicationMvc.Repositories
                 .Sum(ci => (ci.Product.Price ?? 0) * ci.Quantity);
         }
 
-        public void Delete(int cartItemId)
+        public void RemoveCartItem(int cartItemId)
         {
             var cartItem = context.CartItems.SingleOrDefault(ci => ci.CartItemId == cartItemId);
             if (cartItem != null)
@@ -76,7 +76,7 @@ namespace WebApplicationMvc.Repositories
             }
         }
 
-        public void ClearCart(string userId)
+        public void ClearCartByUserId(string userId)
         {
             var cart = context.Carts
                       .Include(c => c.CartItems)

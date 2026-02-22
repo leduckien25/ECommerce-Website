@@ -15,9 +15,8 @@ namespace WebApplicationMvc.Repositories
         {
             return context.Orders.ToList();
         }
-        public IEnumerable<Order> GetOrders(out int totalPages, int page, int size = 12)
+        public IEnumerable<Order> GetOrders( int page, int size = 12)
         {
-            totalPages = (context.Orders.Count() - 1) / size + 1;
             return context.Orders.Skip(size * (page - 1)).Take(size).ToList();
         }
         public IEnumerable<Order> GetRecentOrders(int size = 10)

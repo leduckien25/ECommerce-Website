@@ -1,13 +1,13 @@
 ﻿<div class="list-group list-group-flush">
-    <a asp-controller="Account" asp-action="Manage"
+    <a asp-controller="Profile" asp-action="Manage"
        class="list-group-item list-group-item-action @(ViewData["ActivePage"] as string == "Manage" ? "active" : "")">
         Overview
     </a>
-    <a asp-controller="Account" asp-action="EditProfile"
+    <a asp-controller="Profile" asp-action="Edit"
        class="list-group-item list-group-item-action @(ViewData["ActivePage"] as string == "EditProfile" ? "active" : "")">
         Edit Profile
     </a>
-    <a asp-controller="Account" asp-action="ChangePassword"
+    <a asp-controller="Password" asp-action="ChangePassword"
        class="list-group-item list-group-item-action @(ViewData["ActivePage"] as string == "ChangePassword" ? "active" : "")">
         Change Password
     </a>
@@ -15,8 +15,9 @@
        class="list-group-item list-group-item-action @(ViewData["ActivePage"] as string == "DeleteAccount" ? "active" : "")">
         Delete Account
     </a>
-    <a asp-controller="Account" asp-action="Logout"
-       class="list-group-item list-group-item-action">
-        Logout
-    </a>
+    <form method="post" action="/account/logout">
+        <button class="list-group-item list-group-item-action">
+           Logout
+        </button>
+    </form>
 </div>

@@ -14,8 +14,5 @@ public partial class Category
 
     [MaxLength(2024)]
     public string? Description { get; set; }
-
-    [MaxLength(32)]
-
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public ICollection<Product> Products { get; set; } = new List<Product>();
 }

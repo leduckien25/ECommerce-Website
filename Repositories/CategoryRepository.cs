@@ -12,7 +12,7 @@ namespace WebApplicationMvc.Repositories
         {
         }
 
-        public IEnumerable<Category> GetCategories() => context.Categories;
+        public IEnumerable<Category> GetCategoriesWithProducts() => context.Categories.Include(c => c.Products);
 
         public IEnumerable<Category> GetCategories(out int pages, int page, int size = 12)
         {
@@ -42,6 +42,11 @@ namespace WebApplicationMvc.Repositories
         public int GetCategoriesCount()
         {
             return context.Categories.Count();
+        }
+
+        public IEnumerable<Category> GetCategories(int page, int size = 12)
+        {
+            return context.Categories.Skip((page - 1) * size).Take(size);
         }
     }
 }

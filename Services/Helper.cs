@@ -70,8 +70,16 @@ namespace WebApplicationMvc.Services
             }
             return result.ToString();
         }
-
-        public static string? SaveImage(Product product, IFormFile file)
+        /// <summary>
+        /// Saves the specified image file for the given product and returns the new file name.
+        /// </summary>
+        /// <remarks>The method creates the necessary directory structure if it does not already exist. If
+        /// the product has an existing image, it will be removed before saving the new file.</remarks>
+        /// <param name="product">The product for which the image is being saved. If the product already has an associated image, it will be
+        /// deleted before saving the new one.</param>
+        /// <param name="file">The image file to be saved. Cannot be null; if null, the method returns null.</param>
+        /// <returns>The new file name of the saved image, or null if the file parameter is null.</returns>
+        public static string? SaveImage(Product product, IFormFile? file)
         {
             if (file == null) return null;
 
@@ -79,9 +87,9 @@ namespace WebApplicationMvc.Services
             if (!Directory.Exists(imagesFolder)) Directory.CreateDirectory(imagesFolder);
 
 
-            if (!string.IsNullOrEmpty(product.ImageUrl))
+            if (!string.IsNullOrEmpty(product.FileName))
             {
-                string oldPath = Path.Combine(imagesFolder, product.ImageUrl);
+                string oldPath = Path.Combine(imagesFolder, product.FileName);
                 if (File.Exists(oldPath)) File.Delete(oldPath);
             }
 
@@ -98,9 +106,9 @@ namespace WebApplicationMvc.Services
 
         public static void DeleteImage(Product product)
         {
-            if (product.ImageUrl == null) return;
+            if (product.FileName == null) return;
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products", product.ImageUrl);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "products", product.FileName);
 
             if (File.Exists(path))
             {

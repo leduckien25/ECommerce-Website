@@ -1,16 +1,30 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using WebApplicationMvc.Data;
+using WebApplicationMvc.Mappings;
 using WebApplicationMvc.Providers;
+using WebApplicationMvc.Services;
+using WebApplicationMvc.Services.Interfaces;
+using WebApplicationMvc.Services.Mappings;
 using WebApplicationMvc.Services.Payment;
 using WebApplicationMvc.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 builder.Services.Configure<VnPayParameters>(builder.Configuration.GetSection("Payment:VnPay:Parameters"));
 builder.Services.Configure<VnPayConfig>(builder.Configuration.GetSection("Payment:VnPay:Config"));
