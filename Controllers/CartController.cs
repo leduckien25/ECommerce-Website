@@ -40,9 +40,9 @@ namespace WebApplicationMvc.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int cartItemId)
+        public IActionResult Delete(int id)
         {
-            int ret = _cartService.RemoveItem(cartItemId);
+            int ret = _cartService.RemoveItem(id);
 
             if (ret > 0)
             {

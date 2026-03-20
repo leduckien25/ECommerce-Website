@@ -25,7 +25,7 @@ namespace WebApplicationMvc.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return RedirectToAction("Login");
+                return Redirect("/account/Login");
             }
 
             var model = new UserViewModel

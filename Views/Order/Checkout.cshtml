@@ -2,8 +2,6 @@
 
 @{
     var totalPrice = Model.CartItems.Sum(item => item.Product.Price * item.Quantity);
-    var discount = (totalPrice.GetValueOrDefault() * 0.15m);
-    var total = totalPrice.GetValueOrDefault() - discount;
 }
 <!-- Checkout Page Start -->
 <div class="container-fluid py-5">
@@ -80,20 +78,11 @@
                                         <td class="py-5">$@(item.Product.Price* item.Quantity)</td>
                                     </tr>
                                 }
-
-                                <tr>
-                                    <td colspan="4" class="text-end py-3"><strong>Subtotal</strong></td>
-                                    <td class="py-3">$@($"{totalPrice:F2}")</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="text-end py-3 text-danger"><strong>Discount</strong></td>
-                                    <td class="py-3 text-danger">- $@($"{discount:F2}")</td>
-                                </tr>
                                 <tr>
                                     <td colspan="4" class="text-end py-3"><strong>Total</strong></td>
                                     <td class="py-3">
                                         <strong>
-                                            $@($"{total:F2}")
+                                            $@($"{totalPrice:F2}")
                                         </strong>
                                     </td>
                                 </tr>
