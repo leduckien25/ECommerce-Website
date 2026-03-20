@@ -105,7 +105,7 @@ namespace WebApplicationMvc.Controllers
 
                 if (user is null)
                 {
-                    return RedirectToAction("Login");
+                    return Redirect("/account/Login");
                 }
 
                 if (await _userManager.CheckPasswordAsync(user, model.Password))

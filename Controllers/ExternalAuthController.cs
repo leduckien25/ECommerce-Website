@@ -19,7 +19,7 @@ namespace WebApplicationMvc.Controllers
 
         public IActionResult LoginGoogle()
         {
-            var redirectUrl = "/Account/GoogleResponse";
+            var redirectUrl = "/ExternalAuth/GoogleResponse";
 
             var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
 

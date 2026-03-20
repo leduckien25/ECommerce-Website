@@ -43,7 +43,7 @@ public class AccountController : Controller
             {
                 return Redirect("/");
             }
-            ModelState.AddModelError("", "Invalid login attempt");
+            ModelState.AddModelError("", "Wrong username or password.");
         }
         return View(model);
     }
@@ -82,13 +82,19 @@ public class AccountController : Controller
         return View(model);
     }
 
+    [Authorize]
+    public IActionResult AccessDenied(string ReturnUrl)
+    {
+        ViewData["Title"] = "Access Denied";
+        ViewData["ReturnUrl"] = ReturnUrl;
+        return View();
+    }
 
     /// <summary>
     /// Logout the current user and clear session and cookies.
     /// </summary>
     /// <returns></returns>
     [Authorize]
-    [HttpPost]
     public async Task<IActionResult> LogoutAsync()
     {
         await _signInManager.SignOutAsync();
@@ -122,8 +128,7 @@ public class AccountController : Controller
 
         if (result.Succeeded)
         {
-
-            return RedirectToAction("Logout");
+            return RedirectToAction("logout");
         }
         else
         {
